@@ -5,11 +5,10 @@ $( document ).ready(function() {
     }).done(function(data) {
         var rubrics = parseRubrics(data);
         // console.log(data);
-        $('body').html(renderRubrics(rubrics));
+        $('#viewBlock').html(renderRubrics(rubrics));
     });
     $(document).on('click', 'span.hasSub', function () {
         var ul = $(this).next();
-        console.log(ul);
         if (!ul.length) return;
         if (ul.is(':visible')) {
             ul.hide(400);
