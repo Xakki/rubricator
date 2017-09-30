@@ -4,7 +4,18 @@ $( document ).ready(function() {
         url: "https://raw.githubusercontent.com/Xakki/rubricator/master/rubrics.md",
     }).done(function(data) {
         var rubrics = parseRubrics(data);
-        renderRubrics(rubrics);
+        // console.log(data);
+        $('body').html(renderRubrics(rubrics));
+    });
+    $(document).on('click', 'span.hasSub', function () {
+        var ul = $(this).next();
+        console.log(ul);
+        if (!ul.length) return;
+        if (ul.is(':visible')) {
+            ul.hide(400);
+        } else {
+            ul.show(700);
+        }
     });
 });
 
@@ -23,7 +34,7 @@ function parseRubrics(txt) {
         if (lines[i] == '') continue;
         var s = lines[i].match(rs);
         if (!s) {
-            console.log(i, lines[i], s);
+            console.log('Empty string', i, lines[i], s);
         }
         else if (!s[1].length) {
             levelPrev = 0;
@@ -61,5 +72,15 @@ function trim( str, charlist ) {
 }
 
 function renderRubrics(data) {
-
+    var h = '';
+    h += '<ul>';
+    for (var i=0; i < data['sub'].length; i++) {
+        h += '<li><span class="'+(data['sub'][i]['sub'].length ? 'hasSub' : '')+'">'+data['sub'][i]['name'] + '</span>';
+        if (data['sub'][i]['sub'].length) {
+            h += renderRubrics(data['sub'][i]);
+        }
+        h += '</li>'
+    }
+    h += '</ul>';
+    return h;
 }
