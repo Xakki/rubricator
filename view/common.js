@@ -1,7 +1,7 @@
 
 $( document ).ready(function() {
     $.ajax({
-        url: "https://raw.githubusercontent.com/Xakki/rubricator/master/rubrics.md",
+        url: "../rubrics.md",
     }).done(function(data) {
         var rubrics = parseRubrics(data);
         // console.log(data);
